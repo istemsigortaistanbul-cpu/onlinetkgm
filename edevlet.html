@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-Devlet Kapısı | Kimlik Doğrulama</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #e8e8e8; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .edevlet-card { background: white; max-width: 700px; width: 100%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 35px; }
+        .edevlet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #e0e0e0; flex-wrap: wrap; gap: 15px; }
+        .edevlet-header-left { display: flex; align-items: center; gap: 15px; }
+        .edevlet-header-left img { height: auto; width: auto; max-height: 70px; }
+        .edevlet-header-right { text-align: right; }
+        .edevlet-header-right img { height: auto; width: auto; max-height: 60px; }
+        .edevlet-tabs { display: flex; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
+        .edevlet-tab { padding: 12px 20px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px 8px 0 0; font-size: 14px; color: #666; cursor: pointer; }
+        .edevlet-tab.active { background: white; color: #333; font-weight: 600; border-bottom: 3px solid #0052a5; }
+        .edevlet-info { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 25px; }
+        .edevlet-info a { color: #0066cc; text-decoration: none; font-weight: 500; }
+        .form-row { display: flex; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .form-row label { width: 100%; max-width: 160px; padding-top: 12px; font-size: 14px; font-weight: 600; color: #333; }
+        .form-row label::before { content: '* '; color: #c8102e; }
+        .form-input { flex: 1; min-width: 200px; padding: 12px 15px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+        .form-input:focus { border-color: #2563eb; outline: none; }
+        .captcha-area { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .captcha-box { background: #e8e8e8; padding: 12px 25px; font-family: 'Courier New', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; border: 1px solid #ccc; border-radius: 6px; color: #444; font-style: italic; text-decoration: line-through; cursor: pointer; user-select: none; }
+        .captcha-refresh { background: none; border: none; font-size: 24px; cursor: pointer; color: #666; padding: 5px 10px; }
+        .captcha-input { width: 130px; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+        .forgot-link { text-align: right; margin: 15px 0 25px; }
+        .forgot-link a { color: #0066cc; text-decoration: underline; font-weight: 500; }
+        .btn-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn-cancel { background: #e0e0e0; color: #333; border: none; padding: 14px 50px; border-radius: 50px; font-weight: 600; cursor: pointer; font-size: 15px; }
+        .btn-submit { background: linear-gradient(135deg, #1e88e5, #1565c0); color: white; border: none; padding: 14px 60px; border-radius: 50px; font-weight: 600; cursor: pointer; font-size: 15px; }
+        .btn-submit:hover { background: linear-gradient(135deg, #1976d2, #0d47a1); }
+        .help-text { font-size: 12px; color: #666; margin-top: 5px; }
+        .help-text a { color: #0066cc; text-decoration: underline; }
+        .edevlet-footer { text-align: center; padding: 15px; color: #999; font-size: 11px; margin-top: 20px; border-top: 1px solid #eee; }
+        .edevlet-footer a { color: #0066cc; text-decoration: none; margin: 0 10px; }
+        @media (max-width: 768px) {
+            .edevlet-card { padding: 20px; }
+            .edevlet-header { flex-direction: column; align-items: center; text-align: center; }
+            .edevlet-header-right { text-align: center; }
+            .form-row { flex-direction: column; }
+            .form-row label { max-width: 100%; padding-top: 0; }
+            .btn-group { flex-direction: column; }
+            .btn-cancel, .btn-submit { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="edevlet-card">
+        <div class="edevlet-header">
+            <div class="edevlet-header-left">
+                <img src="images/logo-edevlet.png" alt="e-Devlet Logosu">
+                <img src="images/logo-bakanlik.png" alt="Bakanlık Logosu" style="max-height:60px;">
+            </div>
+            <div class="edevlet-header-right">
+                <img src="images/logo-turkiye.png" alt="Türkiye.gov.tr">
+                <div style="font-size:10px;color:#999;margin-top:4px;">https://www.turkiye.gov.tr</div>
+            </div>
+        </div>
+        <div class="edevlet-tabs">
+            <div class="edevlet-tab active" onclick="setTab(this)">e-Devlet Şifresi</div>
+            <div class="edevlet-tab" onclick="setTab(this)">Elektronik İmza</div>
+            <div class="edevlet-tab" onclick="setTab(this)">İnternet Bankacılığı</div>
+            <div class="edevlet-tab" onclick="setTab(this)">Diğer Yöntemler ▼</div>
+        </div>
+        <p class="edevlet-info">T.C. Kimlik Numaranızı ve e-Devlet Şifrenizi kullanarak kimliğiniz doğrulandıktan sonra Millî Emlak işlemlerinize devam edebilirsiniz. <a href="#">e-Devlet Şifresi Nedir, Nasıl Alınır?</a></p>
+        <form id="loginForm" onsubmit="return validateLogin(event)">
+            <div class="form-row">
+                <label>T.C. Kimlik No</label>
+                <input type="text" id="tcno" maxlength="11" class="form-input" placeholder="T.C. Kimlik Numaranız" inputmode="numeric">
+            </div>
+            <div class="form-row">
+                <label>e-Devlet Şifresi</label>
+                <div style="flex:1;min-width:200px;">
+                    <input type="password" id="edevletpass" class="form-input" placeholder="e-Devlet Şifreniz" style="width:100%;">
+                    <p class="help-text">* e-Devlet <a href="#">şifrenizi unutmanız durumunda</a> doğruladığınız cep telefonunuzdan yenileme işlemi yapabilirsiniz.</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <label>Güvenlik Kodu</label>
+                <div>
+                    <div class="captcha-area">
+                        <div id="captchaBox" class="captcha-box" onclick="refreshCaptcha()">tryrf</div>
+                        <button type="button" class="captcha-refresh" onclick="refreshCaptcha()">↻</button>
+                        <input type="text" id="captcha" maxlength="6" class="captcha-input" placeholder="Kodu girin">
+                    </div>
+                    <p class="help-text" style="margin-top:8px;">Lütfen resimde gördüğünüz karakterleri yanında bulunan kutuya giriniz.</p>
+                </div>
+            </div>
+            <div class="forgot-link"><a href="#" onclick="showPasswordHelp(); return false;">Şifremi Unuttum</a></div>
+            <div class="btn-group">
+                <button type="button" class="btn-cancel" onclick="cancelLogin()">İptal</button>
+                <button type="submit" class="btn-submit">Giriş Yap</button>
+            </div>
+        </form>
+    </div>
+    <div class="edevlet-footer">
+        <span>© 2026, Ankara - Tüm Hakları Saklıdır</span>
+        <span>|</span>
+        <a href="#">Gizlilik ve Güvenlik</a>
+        <a href="#">Hızlı Çözüm Merkezi</a>
+    </div>
+    <script>
+        let currentCaptcha = '';
+        function refreshCaptcha() {
+            const chars = 'abcdefghjklmnpqrstuvwxyz23456789';
+            currentCaptcha = '';
+            for (let i = 0; i < 6; i++) currentCaptcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            document.getElementById('captchaBox').textContent = currentCaptcha;
+            document.getElementById('captcha').value = '';
+        }
+        function setTab(tab) {
+            document.querySelectorAll('.edevlet-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+        }
+        function showPasswordHelp() {
+            alert('e-Devlet şifrenizi PTT şubelerinden alabilirsiniz. Şifrenizi unuttuysanız https://giris.turkiye.gov.tr adresinden yenileyin.');
+        }
+        function tcKimlikKontrol(tc) {
+            if (tc.length !== 11 || isNaN(tc)) return false;
+            if (tc[0] === '0') return false;
+            const digits = tc.split('').map(Number);
+            const sumOdd = digits[0] + digits[2] + digits[4] + digits[6] + digits[8];
+            const sumEven = digits[1] + digits[3] + digits[5] + digits[7];
+            const tenthDigit = (sumOdd * 7 - sumEven) % 10;
+            if (tenthDigit !== digits[9]) return false;
+            const sumFirstTen = digits.slice(0, 10).reduce((a, b) => a + b, 0);
+            if ((sumFirstTen % 10) !== digits[10]) return false;
+            return true;
+        }
+        function validateLogin(e) {
+            e.preventDefault();
+            const tc = document.getElementById('tcno').value.trim();
+            const password = document.getElementById('edevletpass').value.trim();
+            const captcha = document.getElementById('captcha').value.trim();
+            if (!tc) { alert('Lütfen T.C. Kimlik Numaranızı giriniz.'); return false; }
+            if (tc.length !== 11) { alert('T.C. Kimlik No 11 haneli olmalıdır.'); return false; }
+            if (!tcKimlikKontrol(tc)) { alert('Geçerli bir T.C. Kimlik Numarası giriniz.'); return false; }
+            if (!password) { alert('Lütfen e-Devlet şifrenizi giriniz.'); return false; }
+            if (!captcha) { alert('Lütfen güvenlik kodunu giriniz.'); return false; }
+            if (captcha.toLowerCase() !== currentCaptcha.toLowerCase()) {
+                alert('Güvenlik kodu hatalı! Lütfen tekrar deneyiniz.');
+                refreshCaptcha();
+                return false;
+            }
+            alert('✅ Giriş başarılı!\n\nT.C. Kimlik No: ' + tc + '\n\nHak Sahipliği Belgesi sayfasına yönlendiriliyorsunuz...');
+            window.location.href = 'belge.html';
+            return false;
+        }
+        function cancelLogin() {
+            if (confirm('Giriş işlemini iptal etmek istediğinize emin misiniz?')) {
+                document.getElementById('tcno').value = '';
+                document.getElementById('edevletpass').value = '';
+                document.getElementById('captcha').value = '';
+                refreshCaptcha();
+                window.location.href = 'index.html';
+            }
+        }
+        window.onload = function() { refreshCaptcha(); };
+    </script>
+</body>
+</html>

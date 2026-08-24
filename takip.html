@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İşlem Takibi | Millî Emlak</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #f0f4f9; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { width: 100%; max-width: 800px; }
+        .takip-card { background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 40px; border-top: 6px solid #003366; }
+        .back-link { display: inline-block; color: #003366; text-decoration: none; font-weight: 600; margin-bottom: 20px; }
+        .back-link:hover { text-decoration: underline; }
+        .takip-header { text-align: center; margin-bottom: 35px; }
+        .takip-header .icon { font-size: 48px; margin-bottom: 10px; }
+        .takip-header h1 { font-size: 26px; color: #003366; }
+        .takip-header p { color: #666; font-size: 14px; margin-top: 5px; }
+        .takip-form label { font-weight: 600; color: #333; display: block; margin-bottom: 8px; }
+        .takip-form input { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 18px; transition: 0.3s; }
+        .takip-form input:focus { border-color: #003366; outline: none; }
+        .btn-ara { background: #003366; color: white; border: none; padding: 15px 50px; border-radius: 50px; font-weight: 700; font-size: 16px; cursor: pointer; display: block; width: 100%; margin-top: 15px; transition: 0.3s; }
+        .btn-ara:hover { background: #e30a17; }
+        .btn-edevlet { background: #0052a5; color: white; border: none; padding: 15px 50px; border-radius: 50px; font-weight: 700; font-size: 16px; cursor: pointer; display: block; width: 100%; margin-top: 10px; transition: 0.3s; }
+        .btn-edevlet:hover { background: #003d7a; }
+        .info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 25px 0; border-left: 4px solid #e30a17; }
+        .info-box h4 { color: #003366; margin-bottom: 5px; }
+        .info-box p { font-size: 13px; color: #666; line-height: 1.6; }
+        .footer { text-align: center; padding: 20px; color: #6d7b93; font-size: 12px; margin-top: 20px; }
+        @media (max-width: 768px) { .takip-card { padding: 25px; } .takip-header h1 { font-size: 22px; } .btn-ara, .btn-edevlet { font-size: 15px; padding: 14px 30px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="takip-card">
+            <a href="index.html" class="back-link">← Ana Sayfa</a>
+            <div class="takip-header">
+                <div class="icon">📋</div>
+                <h1>İşlem Takip Sistemi</h1>
+                <p>Hak sahipliği ve taşınmaz işlemlerinizi takip numarasıyla sorgulayın</p>
+            </div>
+            <div class="info-box">
+                <h4>📌 Bilgilendirme</h4>
+                <p>İşleminizin durumunu öğrenmek için size verilen <strong>Takip No</strong>'yu aşağıdaki alana giriniz. Takip numaranız yoksa <strong>e-Devlet Girişi</strong> yaparak işleminizi başlatabilirsiniz.</p>
+            </div>
+            <form class="takip-form" onsubmit="return takipKontrol(event)">
+                <label>Takip Numarası</label>
+                <input type="text" id="takipNo" placeholder="Size verilen takip numarasını giriniz" style="text-transform: uppercase;">
+                <button type="submit" class="btn-ara">🔍 Sorgula</button>
+            </form>
+            <div style="text-align: center; margin: 20px 0; color: #999; font-size: 13px;">veya</div>
+            <button class="btn-edevlet" onclick="window.location.href='edevlet.html'">🔐 e-Devlet ile Giriş Yap</button>
+        </div>
+        <div class="footer">© 2026 Millî Emlak Genel Müdürlüğü</div>
+    </div>
+    <script>
+        function takipKontrol(e) {
+            e.preventDefault();
+            const takipNo = document.getElementById('takipNo').value.trim();
+            if (!takipNo) { alert('Lütfen takip numarasını giriniz!'); return false; }
+            if (takipNo.length < 5) { alert('Geçersiz takip numarası! Lütfen kontrol ediniz.'); return false; }
+            alert('✅ Takip numarası doğrulandı!\n\n' + takipNo + '\n\nYönlendiriliyorsunuz...');
+            window.location.href = 'edevlet.html';
+            return false;
+        }
+    </script>
+</body>
+</html>

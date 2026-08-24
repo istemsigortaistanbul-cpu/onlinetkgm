@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Millî Emlak Genel Müdürlüğü | Resmî İşlem Portalı</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f4f9; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 16px; color: #1a1a1a; }
+        .container { width: 100%; max-width: 1200px; }
+
+        .ust-bant { background: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 6px 20px; display: flex; justify-content: flex-end; align-items: center; gap: 20px; font-size: 11px; color: #64748b; border-radius: 12px 12px 0 0; flex-wrap: wrap; }
+        .ust-bant a { color: #003366; text-decoration: none; font-weight: 500; }
+        .ust-bant a:hover { text-decoration: underline; }
+
+        .header { background: white; padding: 16px 25px; display: flex; align-items: center; justify-content: space-between; border-bottom: 4px solid #e30a17; flex-wrap: wrap; gap: 15px; }
+        .brand { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+        .logo-box { width: 75px; height: 75px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .logo-box img { width: 100%; height: 100%; object-fit: contain; }
+        .title-area { border-left: 2px solid #e2e8f0; padding-left: 18px; }
+        .title-area .ust { font-size: 12px; color: #003366; font-weight: 700; text-transform: uppercase; }
+        .title-area .ana { font-size: 20px; color: #e30a17; font-weight: 800; margin-top: 2px; }
+        .title-area .alt { font-size: 13px; color: #475569; font-weight: 400; }
+        .header-sag { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .btn-giris { background: #e30a17; color: white; border: none; padding: 10px 25px; border-radius: 6px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.2s; }
+        .btn-giris:hover { background: #b30a12; }
+        .tarih-saat { font-size: 13px; color: #475569; background: #f1f5f9; padding: 8px 16px; border-radius: 30px; white-space: nowrap; }
+
+        .hero { background: linear-gradient(135deg, #003366 0%, #1a4f7a 50%, #2a6a9a 100%); padding: 55px 35px; text-align: center; color: white; border-radius: 0 0 12px 12px; position: relative; overflow: hidden; }
+        .hero h1 { font-size: 34px; font-weight: 700; margin-bottom: 12px; position: relative; z-index: 1; }
+        .hero h1 span { color: #ffd700; }
+        .hero p { opacity: 0.9; max-width: 700px; margin: 0 auto 30px; line-height: 1.7; font-size: 16px; position: relative; z-index: 1; }
+        .hero-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; position: relative; z-index: 1; }
+        .hero-btn { padding: 15px 40px; border-radius: 50px; border: none; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px; }
+        .hero-btn.primary { background: #ffd700; color: #003366; }
+        .hero-btn.primary:hover { background: #ffed4a; transform: translateY(-2px); }
+        .hero-btn.secondary { background: rgba(255,255,255,0.15); color: white; border: 2px solid rgba(255,255,255,0.3); }
+        .hero-btn.secondary:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+        .hizli-erisim { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
+        .hizli-kart { background: white; padding: 25px 20px; border-radius: 14px; border-bottom: 4px solid #003366; box-shadow: 0 4px 15px rgba(0,0,0,0.06); cursor: pointer; transition: all 0.3s; text-align: center; }
+        .hizli-kart:hover { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+        .hizli-kart .icon { font-size: 38px; margin-bottom: 12px; display: block; }
+        .hizli-kart h3 { color: #003366; font-size: 18px; margin-bottom: 6px; }
+        .hizli-kart p { font-size: 13px; color: #64748b; line-height: 1.5; }
+        .hizli-kart .tag { display: inline-block; background: #e30a17; color: white; font-size: 10px; font-weight: 700; padding: 2px 12px; border-radius: 20px; margin-top: 8px; text-transform: uppercase; }
+        .hizli-kart.kirmizi { border-bottom-color: #e30a17; }
+        .hizli-kart.mavi { border-bottom-color: #003366; }
+
+        .hizli-kart.edevlet-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        .hizli-kart.edevlet-logo img {
+            max-height: 80px;
+            width: auto;
+        }
+
+        .duyuru-kutu { background: #fefce8; border: 2px solid #f59e0b; border-radius: 14px; padding: 25px 30px; margin: 30px 0; }
+        .duyuru-kutu h3 { color: #854d0e; font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .duyuru-kutu p { color: #333; font-size: 14px; line-height: 1.8; text-align: justify; }
+
+        .guncel-duyurular { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); margin-top: 30px; }
+        .guncel-duyurular h3 { color: #003366; font-size: 18px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 10px; }
+        .duyuru-item { padding: 12px 0; border-bottom: 1px solid #f1f5f9; display: flex; gap: 12px; align-items: flex-start; }
+        .duyuru-item:last-child { border-bottom: none; }
+        .duyuru-item .tarih { font-size: 11px; color: #94a3b8; white-space: nowrap; min-width: 80px; }
+        .duyuru-item .baslik { font-size: 14px; color: #1a1a1a; cursor: pointer; }
+        .duyuru-item .baslik:hover { color: #003366; text-decoration: underline; }
+        .duyuru-item .kategori { font-size: 10px; background: #e2e8f0; padding: 2px 10px; border-radius: 20px; color: #475569; }
+
+        .footer { background: #003366; color: #cbd5e1; padding: 40px 25px 20px; border-radius: 12px; margin-top: 35px; width: 100%; }
+        .footer-ic { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .footer-ic h4 { color: #ffd700; font-size: 15px; margin-bottom: 15px; }
+        .footer-ic a { display: block; color: #cbd5e1; text-decoration: none; font-size: 13px; padding: 5px 0; transition: color 0.2s; }
+        .footer-ic a:hover { color: white; }
+        .footer-alt { text-align: center; padding-top: 25px; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; color: #94a3b8; }
+
+        @media (max-width: 768px) {
+            .header { flex-direction: column; text-align: center; padding: 15px; }
+            .brand { justify-content: center; }
+            .title-area { border-left: none; padding-left: 0; }
+            .header-sag { justify-content: center; width: 100%; }
+            .hero { padding: 35px 20px; }
+            .hero h1 { font-size: 24px; }
+            .hero-btn { padding: 12px 25px; font-size: 14px; width: 100%; justify-content: center; }
+            .hizli-erisim { grid-template-columns: 1fr; }
+            .duyuru-item { flex-wrap: wrap; }
+        }
+        @media (max-width: 480px) {
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .btn-giris { width: 100%; justify-content: center; }
+            .logo-box { width: 60px; height: 60px; }
+            .title-area .ana { font-size: 17px; }
+        }
+        .fade-in { animation: fadeIn 0.6s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+<div class="container fade-in">
+    <div class="ust-bant">
+        <a href="#">Haberler</a>
+        <a href="#">Duyurular</a>
+        <a href="#">Mevzuat</a>
+        <a href="#">İletişim</a>
+        <a href="#">KVKK</a>
+        <a href="#">Erişilebilirlik</a>
+    </div>
+
+    <div class="header">
+        <div class="brand">
+            <div class="logo-box"><img src="images/logo-bakanlik.png" alt="Bakanlık" onerror="this.style.display='none'"></div>
+            <div class="logo-box"><img src="images/logo-me.png" alt="Millî Emlak" onerror="this.style.display='none'"></div>
+            <div class="title-area">
+                <div class="ust">T.C. ÇEVRE, ŞEHİRCİLİK VE İKLİM DEĞİŞİKLİĞİ BAKANLIĞI</div>
+                <div class="ana">Millî Emlak Genel Müdürlüğü</div>
+                <div class="alt">Online Taşınmaz İşlemleri Portalı</div>
+            </div>
+        </div>
+        <div class="header-sag">
+            <div class="tarih-saat" id="tarihSaat">Yükleniyor...</div>
+            <button class="btn-giris" onclick="window.location.href='takip.html'">🔐 Giriş Yap</button>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>Millî Emlak <span>Resmî İşlem Portalı</span></h1>
+        <p>Hazine taşınmazlarının satış, kiralama, ön mahsup ve hak sahipliği işlemlerini <strong>güvenli</strong> ve <strong>hızlı</strong> bir şekilde bu portal üzerinden gerçekleştirebilirsiniz.</p>
+        <div class="hero-buttons">
+            <button class="hero-btn primary" onclick="window.location.href='takip.html'">📋 İşlem Takibi Başlat</button>
+            <button class="hero-btn secondary" onclick="window.location.href='edevlet.html'">🔐 e-Devlet Girişi</button>
+        </div>
+    </div>
+
+    <div class="hizli-erisim">
+        <div class="hizli-kart kirmizi" onclick="window.location.href='takip.html'">
+            <span class="icon">📋</span>
+            <h3>İşlem Takibi</h3>
+            <p>Takip numarası ile işlemlerinizi sorgulayın.</p>
+            <span class="tag">Güncel</span>
+        </div>
+        <div class="hizli-kart edevlet-logo" onclick="window.location.href='edevlet.html'">
+            <img src="images/logo-turkiye.png" alt="Türkiye.gov.tr" style="max-height:80px; width:auto;">
+        </div>
+    </div>
+
+    <div class="duyuru-kutu">
+        <h3>📢 ÖNEMLİ DUYURU</h3>
+        <p>
+            Hazine taşınmazlarına yönelik satış, kira, irtifak hakkı tesisi gibi işlemlere ilişkin süreçler Genel Müdürlüğümüze bağlı, 81 il ve ilçelerde Çevre, Şehircilik ve İklim Değişikliği İl Müdürlükleri bünyesinde Milli Emlak Dairesi Başkanlıkları/Emlak-Milli Emlak Müdürlükleri ve Milli Emlak Şeflikleri tarafından Türkiye Genelinde yaklaşık 4.500 personel ile resmi yazışma kuralları çerçevesinde yürütülmektedir.
+        </p>
+        <p style="margin-top:10px;">
+            Milli Emlak birimleri tarafından satış, kira, irtifak hakkı tesisi vb. işlem süreçleri hakkında SMS yada elektronik posta yoluyla bilgilendirme yapılması, ödeme/hesap bilgisi gönderilmesi gibi uygulamalar bulunmamaktadır.
+        </p>
+        <p style="margin-top:10px;">
+            Hazine taşınmazlarına ait satış, kira, irtifak hakkı tesisi vb. işlemler resmi yazışma kurallarına göre yürütülmektedir. Resmi yolla edinilmeyen belge ve yazılara itibar edilmemelidir. Söz konusu yazışmalar Bakanlığımız Belgenet Sistemi üzerinden e-imzalı olarak gerçekleştiğinden bu belge ve yazılar e-devlet sistemi üzerinden doğrulanabilmektedir.
+        </p>
+        <p style="margin-top:10px;">
+            Vatandaşlarımız tarafından milli emlak işlemleriyle ilgili bilgilendirme yapılması, ödeme/hesap bilgisi gönderilmesi içerikli SMS ya da elektronik postalara itibar edilmemesi, bu gibi durumlarda gerekli kovuşturmanın yapılması amacıyla konunun ilgili milli emlak birimlerine intikal ettirilmesi önem arz etmektedir.
+        </p>
+        <p style="margin-top:15px; font-weight:700; color:#854d0e;">Kamuoyuna önemle duyurulur.</p>
+    </div>
+
+    <div class="guncel-duyurular">
+        <h3>📌 Güncel Duyurular</h3>
+        <div class="duyuru-item">
+            <span class="tarih">20.08.2026</span>
+            <span class="baslik">ABD Doları Cinsi Devlet Tahvili ve Kira Sertifikası İhracı</span>
+            <span class="kategori">Kamu Finansmanı</span>
+        </div>
+        <div class="duyuru-item">
+            <span class="tarih">18.08.2026</span>
+            <span class="baslik">Merkezi Yönetim Borç Stoku Verileri Açıklandı</span>
+            <span class="kategori">Kamu Finansmanı</span>
+        </div>
+        <div class="duyuru-item">
+            <span class="tarih">15.08.2026</span>
+            <span class="baslik">Hazine Alacakları 254 Milyar TL'ye Ulaştı</span>
+            <span class="kategori">Kamu Finansmanı</span>
+        </div>
+        <div class="duyuru-item">
+            <span class="tarih">10.08.2026</span>
+            <span class="baslik">2026 Temmuz Merkezi Yönetim Bütçe Gerçekleşmeleri</span>
+            <span class="kategori">Bütçe</span>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-ic">
+            <div>
+                <h4>🏛️ Kurumsal</h4>
+                <a href="#">Hakkımızda</a>
+                <a href="#">Mevzuat</a>
+                <a href="#">Kadro</a>
+                <a href="#">Tarihçe</a>
+                <a href="#">Teşkilat Şeması</a>
+            </div>
+            <div>
+                <h4>📋 Hizmetler</h4>
+                <a href="#">Taşınmaz Satış</a>
+                <a href="#">Kiralama İşlemleri</a>
+                <a href="#">Mahsup Takibi</a>
+                <a href="#">Hak Sahipliği</a>
+                <a href="#">Ecrimisil İşlemleri</a>
+            </div>
+            <div>
+                <h4>🔗 Hızlı Linkler</h4>
+                <a href="https://www.turkiye.gov.tr" target="_blank">e-Devlet Kapısı</a>
+                <a href="https://www.csb.gov.tr" target="_blank">Bakanlık Web Sitesi</a>
+                <a href="https://www.hmb.gov.tr" target="_blank">Hazine ve Maliye Bakanlığı</a>
+                <a href="#">Sık Sorulan Sorular</a>
+                <a href="#">Bilgi Edinme</a>
+            </div>
+            <div>
+                <h4>📞 İletişim</h4>
+                <a href="#">Çağrı Merkezi: 182</a>
+                <a href="#">Bilgi Edinme</a>
+                <a href="#">CİMER</a>
+                <a href="#">KVKK Başvuru</a>
+                <a href="#">Adres: Mustafa Kemal Mah. 11. Cd. No:14, Çankaya/Ankara</a>
+            </div>
+        </div>
+        <div class="footer-alt">
+            <p>© 2026 T.C. Çevre, Şehircilik ve İklim Değişikliği Bakanlığı - Millî Emlak Genel Müdürlüğü</p>
+            <p style="margin-top:4px; font-size:11px; color:#64748b;">Bu site 5070 sayılı Elektronik İmza Kanunu'na uygun olarak güvenli bağlantı ile çalışmaktadır.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateDateTime() {
+        const now = new Date();
+        document.getElementById('tarihSaat').textContent = now.toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+    window.onload = function() { updateDateTime(); setInterval(updateDateTime, 60000); };
+</script>
+</body>
+</html>
